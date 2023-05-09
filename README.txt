@@ -1,7 +1,7 @@
 HITIComm
 --------
 Arduino library for efficient control and monitoring of Arduino projects from computer.
-Optimized for working with HITISoftware products.  
+Optimized for working with HITISoftware products (Tahiti Robotics SARL).
 
 
 Pre-compiled library
