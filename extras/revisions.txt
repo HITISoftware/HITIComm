@@ -1,0 +1,314 @@
+HITIComm revisions ********************************************
+
+1.5.5 (2023-05-08)
+	Library:
+		* License: Apache 2.0
+		  => The project is now open-source
+
+	HITIComm Examples:
+		* 1_Basics: new example: BasicSketch
+
+1.5.4 (2022-01-05)
+	HITIComm Examples:
+		* 1_Basics: new example: 6_DigitalData (Button)
+		* All: update according to new HelpCenter content
+
+1.5.3 (2022-11-20)
+	HITIComm:
+		* Several header files made visible to allow their use as standalone libraries
+			=> they can now be included without including the whole library
+			=> ex: HC_Timer.h, HC_Eeprom.h, HC_Sram.h...	
+
+1.5.2 (2021-08-11)
+	Library:
+		* New feature
+			- Data: DAC integration
+			- Protocol: DAC integration
+		* Bug fix
+			- For board with FTDI (e.g. Nano), serial packets are sent only every 40ms at best
+				=> A queries removed for these boards
+
+1.5.1 (2021-06-07)
+	Library:
+		- Minor bug fix:
+			* HC_SignalFilter: bad mask filling when adding data
+			* NULL replaced by NULL_POINTER to avoid redefining macro and having warning
+
+1.5.0 (2021-04-17)
+	COPYRIGHTED to Copyright Offices
+	License:
+		- reviewed	
+
+1.4.5 (2021-04-15)
+	HITIComm splitted into 2 libraries:
+		- HITIComm 		(compiled,   closed-source license)
+		- HITICommSupport 	(uncompiled, open-source license)
+
+1.4.4 (2021-04-01)
+	Complete Examples reviewed:
+		- Tinkerkit (Braccio x3)
+		- Grove (x5)
+		- DFRobot (x1)
+		- Velleman (x1)
+
+1.4.3 (2021-01-05)
+	Library
+		- Input Mode Option added for SAMD (Pull-up, Pull-down)
+		- Peripherals recognition:
+			* I2S
+		- ADC, DAC resolution modification made possible
+		- SRAM
+			* relevant linker variables retrieved for SAMD
+		- Protocol:
+			* Integer/Hex length compatibility with SAMD (int => 32-bit)
+	New board
+		- SAMD
+			* MKR Wifi 1010
+
+1.4.2
+	Library
+		- Header files include pattern reviewed
+		- HC_outputType()
+			* macro added: DIGITAL and PWM
+		- updatePWM() and updateDO() => set value to 0
+		- Bug fix
+			* Mega: HC_PWM_IS_ENABLED() corrected
+			* Bad board identification (same processor) when using pre-compiled library
+				=> library split into 2: HITIComm (compiled) and HITICommSupport (not precompiled)
+		- Peripherals recognition:
+			* SPI
+			* TWI
+			* USART
+	New board
+		- MegaAVR: 
+			* Uno Wifi Rev2
+			* Nano Every
+	Examples
+		- Seeed Smart Plant Care Kit
+
+1.4.1 (2020-11-03)
+	Library
+		- Default config change: 
+			* HC_Eeprom.cpp: IO Config removed by default
+		- Bug fix
+			* HC_Protocol: force all data sending at start for Leonardo 
+			* HC_Toolbox: local variable not initialized in HC_bitcount()
+			* HC_ServoManager: variable not initialized in servo_struct
+			* HC_MotionManager + HC_MotorGroup + HC_Timer + HC_MultiTimer: reading mIsEnding also resets this time indicator
+	Examples
+		- Eeprom examples
+		- Tinkerkit Braccio arm, 3 examples:
+			* Keyboard
+			* ServoParam
+			* Group
+
+1.4.0 (2020-10-10)
+	Library
+		- Protocol	
+	Copyright
+		- deposited at APP and Copyright Offices
+
+1.3.8-1.3.9 (2020-09-08)
+	Library
+		- Headers reviewed
+		- Compiled archives (.a) for atmega328P, atmega1280, atmega2560, atmega32u4
+		- Source files placed in "src\sub" folder. Only main .h to expose to user are left in "src" root
+	Examples
+		- Format correction
+
+1.3.6-1.3.7 (2020-08-31)
+	Library
+		- HITI Servo: time indicators added (similar to HITI Timers), max speed value added, functions optimized and renamed
+		- HITI Motor Group: motion time control, Servos max speed effect, functions optimized and renamed
+		- HITI Servo Robot removed
+		- HITI Signal -> HITI Signal Filter: functions optimized and renamed
+	Examples
+		- Reviewed
+
+1.3.5 (2020-06-20)
+	Library
+		- Servo debug => map() replaced with custom HC_map()
+	Examples
+		- Reviewed
+
+1.3.4 (2020-06-09)
+	Library
+		- Timer object reviewed
+		- MultiTimer object created. This object recreates a similar behavior as delay()
+	Examples
+		- Reviewed
+
+1.3.3 (2020-05-20)
+	Library
+		- EEPROM manager : compiled on request
+	Examples
+		- Reviewed
+
+1.3.2 (2020-05-06)
+	Library
+		- Code size reduced and faster
+		- Loaded project ID: name and version
+	Examples
+		- Loaded project ID
+
+1.3.1 (2020-04-16)
+	Library
+		- Protocol optimized and fully obfuscated:
+			* Separator '_' removed
+			* Hex string filled with leading 0 according to data type and desired string length
+		- Cycle Time decreased by optimizing Serial printing:
+			* Serial.print() is faster if inputing char or string directly instead of numbers => input '0' or '1' when possible (boolean, etc...)
+			* float functions are CPU consuming => pow() removed
+		- A query:
+			* Data Type removed
+			* A query period removed
+		=> Cycle Time greatly decreased and stabilized.
+
+1.3.0 (2020-03-29)
+	Library
+		- Protocol optimized and partially obfuscated:
+			* Decimal, float <-> Hex
+			* Config Byte (1 byte: R/W mode, have index, have address)
+			* CRC implemented
+			* Message errors logging reviewed
+			* specific to X query:
+				- More messages, but smaller with few or no different data => reduced cycle time
+				- Empty messages removed, except at start
+				- Some messages with no data change removed, except at start
+			* A/X query management reviewed => for each cycle, A reply occurs if no X reply
+				=> A reply occurs more often
+				=> more consistent loop cycle time reading
+			* specific to obfuscation:
+				- options for obfuscation
+				- Message Type obfuscated
+			* class HC_Protocol
+
+1.2.8-1.2.9 (2020-03-21)
+	Library
+		- HITI String
+		- HITIComm protocol optimized (X0, X1, X16: sent only if data updated)
+		- code optimized: if-else statement replaced with switch statement when possible (else reordered in priority order)
+
+1.2.7 (2020-03-18)
+	Library
+		- SRAM manager
+		- EEPROM manager modified
+
+1.2.6 (2020-02-02)
+	Library
+		- protocol : "Board reset" event added, "Cycle Time" and "Free RAM" put in XQuery
+		- bug correction : protocol (EEPROM)
+		- bug correction : LowAccess PWM
+	Examples
+		- 3_DFRobot_Devastator
+		
+1.2.5 (2020-01-13)
+	Library
+		- ServoManager and ServoInterface updated:
+			* Servo object can be supplied by user
+			* Servo object can be retrieved by user
+			* debug for initial position setting
+			* Servo values functions optimized
+		- Function/variable names made more user-friendly
+		- Keywords.txt updated
+	Examples
+		- 2_Servo updated
+		- 2_Tinkerkit_Braccio created
+		- doc and headers updated
+
+1.2.4 (2020-01-12)
+	Library
+		- SRAM use decrease (using PROGMEM and decreasing buffer size) : 754 bytes won. Free SRAM with no HITI objects loaded : 1211 bytes
+		- bug correction: LowAccess
+		- baudrate selection (required for some Arduino compatible boards which works at lowest rate than 230400)
+		- protocol : simplified use of serial.print()
+	Examples
+		- 1_AllBot_VR408 updated
+
+1.2.3 (2020-01-08)
+	Library
+		- migration to Visual Micro IDE and debugger
+		- error and warning correction (build and intellisense) 
+	Examples
+
+1.2.2 (2020-01-07)
+	Library
+		- Serial protocol optimized
+	Examples
+		- Examples simplified. Less examples
+	
+1.2.1 (2019-11-15)
+	Library
+		- EEPROM manager
+		- Library version
+		- Motion profile reviewed (stop(), limits, continuous move)
+	Examples
+		- New examples
+		
+1.2.0 (2019-09-01)
+	Library
+		- Serial protocol optimized: 
+			- speed measurement
+			- messages split in several small messages: low speed reading (50ms), high speed reading (10ms)
+		- Linear Motion Profile
+	Examples
+		- Creation of several examples
+		- Examples are grouped (basic, medium, advanced, amazing)
+	
+1.1.1.1  (2019-07-30)
+	Library
+		- Debug : non-blocking Delays
+		- FreeRAM : external code
+		- Cycle Frequency
+		- Boards and Variants (Uno Wifi Rev 2, Teensy 1.0, Primo, Nano Every)	
+	Examples
+	
+1.1.1.0  (2019-06-15)
+	Library
+		- non-blocking libraries:
+			* delays
+			* linear motion profile
+		- AllBot integration
+		- naming of variables
+	
+1.1.0.1  (2019-05-15)
+	Library
+		- servo management enabling/disabling	
+
+
+ArduiComm revisions ***************************************
+
+1.1.0.0  (2019-04-30)
+	Library
+		- Arduino variants
+		- integration of Servo
+		- integration of Digital and Analog Data
+		- reading of pin mode, DO, DI, Pwm, Servo
+		- project examples
+	Copyright
+		- deposited at APP and Copyright Offices
+	Submission
+		- submitted to E
+		
+1.0.0.3  (2018-08)
+	Submission
+		- submitted to E
+		
+1.0.0.2  (2018)
+	Library
+		- additional user functions added
+	Examples
+		- 1 global example
+	Copyright
+		- deposited at APP and Copyright Offices
+		
+1.0.0.1  (2018)
+	Library
+		- IO Config recording in EEPROM removed
+		- Serial protocol optimized
+		- User functions added		
+		
+1.0.0.0  (2017)
+	Library
+		- Serial protocol
+		- GP data

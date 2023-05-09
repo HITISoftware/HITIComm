@@ -1,0 +1,484 @@
+﻿#HITIComm
+#keywords.txt - Keywords list
+
+#Version 1.5.4
+
+#Copyright © 2021 Christophe LANDRET. All rights reserved.
+
+#This library is licensed to you by Tahiti Robotics SARL (HITISoftware) under the
+#attached EULA (see LICENSE file).
+
+#This EULA is updated regularly. Latest version is available at: https://hitisoftware.com/
+#You may not use this library except in compliance with this EULA.
+  
+
+#KEYWORD1 	datatypes 				editor.data_type.style
+#KEYWORD2 	functions, instances 	editor.function.style
+#KEYWORD3 	structures 				editor.function.style
+#LITERAL1 	constants 				editor.reserved_word_2.style
+#LITERAL2 	? 						editor.function.style
+
+
+
+######################################################
+# Data Types/Class (only 1 tab allowed before...)
+######################################################
+
+#.h to include ***************************************
+HITIComm	KEYWORD1
+HITICommExtended	KEYWORD1
+
+# Class **********************************************
+HC_AbstractMotor	KEYWORD1
+HC_Timer	KEYWORD1
+HC_MultiTimer	KEYWORD1
+HC_Eeprom	KEYWORD1
+HC_MotionManager	KEYWORD1
+HC_MotorGroup	KEYWORD1
+HC_Servo	KEYWORD1
+HC_ServoInterface	KEYWORD1
+HC_SignalFilter	KEYWORD1
+HC_Protocol	KEYWORD1
+HC_Sram	KEYWORD1
+
+# Enum ***********************************************
+HC_Filter	KEYWORD1
+HC_UserSpace	KEYWORD1
+
+
+######################################################
+# Functions
+######################################################
+
+# HITIComm.h *****************************************
+HC_begin			KEYWORD2
+HC_communicate		KEYWORD2
+
+
+# HC_Data.h ******************************************
+HC_codeName			KEYWORD2
+HC_codeVersion		KEYWORD2
+HC_readCodeName		KEYWORD2
+HC_readCodeVersion	KEYWORD2
+
+HC_pinsMode				KEYWORD2
+HC_readPinsMode_L		KEYWORD2
+HC_readPinsMode_H		KEYWORD2
+HC_readPinsMode			KEYWORD2
+
+HC_inputMode			KEYWORD2
+HC_readInputsMode_L		KEYWORD2
+HC_readInputsMode_L		KEYWORD2
+HC_readInputsMode		KEYWORD2
+HC_readInputMode		KEYWORD2
+
+HC_outputTypes			KEYWORD2
+HC_outputType			KEYWORD2
+HC_readOutputTypes_L	KEYWORD2
+HC_readOutputTypes_H	KEYWORD2
+HC_readOutputTypes		KEYWORD2
+HC_readOutputType		KEYWORD2
+
+HC_PwmIsAvailable_L		KEYWORD2
+HC_PwmIsAvailable_H		KEYWORD2
+HC_PwmIsAvailable		KEYWORD2
+
+HC_readDI_L				KEYWORD2
+HC_readDI_H				KEYWORD2
+HC_readDI				KEYWORD2
+
+HC_writeDO				KEYWORD2
+HC_readDO_L				KEYWORD2
+HC_readDO_H				KEYWORD2
+HC_readDO				KEYWORD2
+
+HC_writePWM				KEYWORD2
+HC_readPWM				KEYWORD2
+HC_PwmIsActivated		KEYWORD2
+
+HC_writeDAC				KEYWORD2
+HC_readDAC				KEYWORD2
+HC_enabledDAC			KEYWORD2
+
+HC_readAI				KEYWORD2
+
+HC_writeDD				KEYWORD2
+HC_digitalDataWrite		KEYWORD2
+HC_readDD				KEYWORD2
+HC_digitalDataRead		KEYWORD2
+
+HC_writeAD				KEYWORD2
+HC_analogDataWrite		KEYWORD2
+HC_readAD				KEYWORD2
+HC_analogDataRead		KEYWORD2
+
+HC_writeString			KEYWORD2
+HC_readString			KEYWORD2
+
+
+# HC_LowAccess.h *************************************
+HC_getCycleTime			KEYWORD2
+
+HC_PwmResolution		KEYWORD2
+HC_DacResolution		KEYWORD2
+HC_getPwmResolution		KEYWORD2
+HC_getDacResolution		KEYWORD2
+
+ 
+# HC_Protocol.h **************************************
+HC_communicate					KEYWORD2
+sendMessage_BoardHasStarted		KEYWORD2
+
+
+# HC_ServoManager.h **********************************
+HC_getServo					KEYWORD2
+HC_servosMode				KEYWORD2
+HC_servoMode				KEYWORD2
+HC_attachServo				KEYWORD2
+HC_detachServo				KEYWORD2
+HC_getServosMode_L			KEYWORD2
+HC_getServosMode_H			KEYWORD2
+HC_getServosMode			KEYWORD2
+HC_getServoMode				KEYWORD2
+HC_readServosMode_L			KEYWORD2
+HC_readServosMode_H			KEYWORD2
+HC_readServosMode			KEYWORD2
+HC_readServoMode			KEYWORD2
+
+HC_servoWrite				KEYWORD2
+HC_servoRead				KEYWORD2
+HC_servoWriteMicroseconds	KEYWORD2
+HC_servoReadMicroseconds	KEYWORD2
+
+
+# HC_ServoInterface.h ********************************
+setServo					KEYWORD2
+getServo					KEYWORD2
+getMinPulseWidth			KEYWORD2
+getMaxPulseWidth			KEYWORD2
+
+attached					KEYWORD2
+attach						KEYWORD2
+detach						KEYWORD2
+
+write						KEYWORD2
+writeMicroseconds			KEYWORD2
+read						KEYWORD2
+readMicroseconds			KEYWORD2
+
+
+# HC_MotionManager.h *********************************
+absolutePosition		KEYWORD2
+relativePosition		KEYWORD2
+speed					KEYWORD2
+motionTime				KEYWORD2
+continuousSpeed			KEYWORD2
+
+travelLimits			KEYWORD2
+
+cycleTime				KEYWORD2
+continuousCycleTime		KEYWORD2
+
+maxSpeed				KEYWORD2
+
+reset					KEYWORD2
+manualReset				KEYWORD2
+autoReset				KEYWORD2
+
+getStroke					KEYWORD2
+getTargetPosition			KEYWORD2
+getTargetSpeed				KEYWORD2
+getContinuousTargetSpeed	KEYWORD2
+
+getMotionTime			KEYWORD2
+
+getCycleTime			KEYWORD2
+getContinuousCycleTime	KEYWORD2
+
+getMaxSpeed				KEYWORD2
+
+getIncrement			KEYWORD2
+getContinuousIncrement	KEYWORD2
+
+isReady							KEYWORD2
+isStarting						KEYWORD2
+isGenerating					KEYWORD2
+isGeneratingContinuouslyNeg		KEYWORD2
+isGeneratingContinuouslyPos		KEYWORD2
+isMoving						KEYWORD2
+isEnding						KEYWORD2
+isDone							KEYWORD2
+
+isNegLimitReached				KEYWORD2
+isPosLimitReached				KEYWORD2
+
+moveOnTrigger					KEYWORD2
+moveNow							KEYWORD2
+moveContinuously				KEYWORD2
+stopOnTrigger					KEYWORD2
+stopNow							KEYWORD2
+
+
+# HC_Timer.h *****************************************
+setDuration		KEYWORD2
+reset			KEYWORD2
+manualReset		KEYWORD2
+autoReset		KEYWORD2
+
+normalMode		KEYWORD2
+frequencyGeneratorMode		KEYWORD2
+
+getElapsedTime	KEYWORD2
+getStartTime	KEYWORD2
+getAutoReset	KEYWORD2
+getState		KEYWORD2
+
+run				KEYWORD2
+delay			KEYWORD2
+delayAfter		KEYWORD2
+
+isReady			KEYWORD2
+isStarting		KEYWORD2
+isRunning		KEYWORD2
+isEnding		KEYWORD2
+isOver			KEYWORD2
+
+
+# HC_MultiTimer.h ************************************
+setQuantity		KEYWORD2
+
+reset			KEYWORD2
+manualReset		KEYWORD2
+autoReset		KEYWORD2
+
+getTimer		KEYWORD2
+
+run				KEYWORD2
+delay			KEYWORD2
+delayAfter		KEYWORD2
+
+isReady			KEYWORD2
+isStarting		KEYWORD2
+isRunning		KEYWORD2
+isEnding		KEYWORD2
+isOver			KEYWORD2
+
+
+# HC_AbstractMotor.h *********************************
+init					KEYWORD2
+
+absolutePosition		KEYWORD2
+relativePosition		KEYWORD2
+
+getID					KEYWORD2
+
+getCurrentPosition			KEYWORD2
+getCurrentSpeed				KEYWORD2
+getContinuousCurrentSpeed	KEYWORD2
+
+isNegLimitReached		KEYWORD2
+isPosLimitReached		KEYWORD2
+
+movePositive			KEYWORD2
+moveNegative			KEYWORD2
+
+
+# HC_Servo.h *****************************************
+init					KEYWORD2
+getRawPosition			KEYWORD2
+getServo				KEYWORD2
+detachServo				KEYWORD2
+
+
+# HC_MotorGroup.h ************************************
+init				KEYWORD2
+absolutePosition	KEYWORD2
+relativePosition	KEYWORD2
+motionTIme			KEYWORD2
+
+reset				KEYWORD2
+manualReset			KEYWORD2
+autoReset			KEYWORD2
+
+getMotorQuantity	KEYWORD2
+getMotionTime		KEYWORD2
+getMotor			KEYWORD2
+
+isReady				KEYWORD2
+isStarting			KEYWORD2
+isMoving			KEYWORD2
+isEnding			KEYWORD2
+isDone				KEYWORD2
+
+add					KEYWORD2
+
+moveOnTrigger		KEYWORD2
+moveNow				KEYWORD2
+stopOnTrigger		KEYWORD2
+stopNow				KEYWORD2
+
+
+# HC_SignalFilter.h **********************************
+setBufferSize	KEYWORD2
+clear			KEYWORD2
+
+getBufferSize	KEYWORD2
+
+average			KEYWORD2
+median			KEYWORD2
+
+
+# HC_Toolbox.h ***************************************
+HC_pow					KEYWORD2
+HC_bitcount				KEYWORD2
+
+HC_makeWord				KEYWORD2
+HC_getLowByte				KEYWORD2
+HC_getHighByte				KEYWORD2
+
+HC_makeDWord				KEYWORD2
+HC_getLowWord				KEYWORD2
+HC_getHighWord				KEYWORD2
+
+
+# HC_Eeprom.h ****************************************
+addIOConfigSpace		KEYWORD2
+removeIOConfigSpace		KEYWORD2
+setUserSpace			KEYWORD2
+setMaxStringLength		KEYWORD2
+
+getSize					KEYWORD2
+getConfigSpace_Address	KEYWORD2
+getConfigSpace_Size		KEYWORD2
+getUserSpace_Address	KEYWORD2
+getUserSpace_Size		KEYWORD2
+getUserSpace_DataQty	KEYWORD2
+getMaxStringLength		KEYWORD2
+
+basic_writeBit			KEYWORD2
+basic_readBit			KEYWORD2
+basic_writeByte			KEYWORD2
+basic_readByte			KEYWORD2
+basic_writeWord			KEYWORD2
+basic_readWord			KEYWORD2
+basic_writeDWord		KEYWORD2
+basic_readDWord			KEYWORD2
+basic_writeFloat		KEYWORD2
+basic_readFloat			KEYWORD2
+basic_writeString		KEYWORD2
+basic_readString		KEYWORD2
+
+writeBoolean			KEYWORD2
+readBoolean				KEYWORD2
+writeByte				KEYWORD2
+readByte				KEYWORD2
+writeInteger			KEYWORD2
+readInteger				KEYWORD2
+writeLong				KEYWORD2
+readLong				KEYWORD2
+writeFloat				KEYWORD2
+readFloat				KEYWORD2
+writeString				KEYWORD2
+readString				KEYWORD2
+
+setAll					KEYWORD2
+clearAll				KEYWORD2
+
+writePinMode			KEYWORD2
+readPinMode				KEYWORD2
+writeOutputType			KEYWORD2
+readOutputType			KEYWORD2
+writeServoMode			KEYWORD2
+readServoMode			KEYWORD2
+
+saveIOConfig			KEYWORD2
+loadIOConfig			KEYWORD2
+clearIOConfig			KEYWORD2
+
+writeConfigRegister		KEYWORD2
+readConfigRegister		KEYWORD2
+writeDetectionFlag		KEYWORD2
+readDetectionFlag		KEYWORD2
+IOConfigDetected		KEYWORD2
+
+HC_eeprom				KEYWORD2
+
+
+# HC_Sram.h ******************************************
+getAddress_DataStart		KEYWORD2
+getAddress_DataEnd			KEYWORD2
+getAddress_BssStart			KEYWORD2
+getAddress_BssEnd			KEYWORD2
+getAddress_HeapStart		KEYWORD2
+getAddress_HeapEnd			KEYWORD2
+
+getAddress_MallocHeapStart	KEYWORD2
+getAddress_MallocHeapEnd	KEYWORD2
+getMallocMargin				KEYWORD2
+
+setProbe					KEYWORD2
+
+getAddress_HeapBreakValue	KEYWORD2
+getStackPointer				KEYWORD2
+getFreeRAM					KEYWORD2
+
+hasChanged					KEYWORD2
+
+HC_sram						KEYWORD2
+
+
+######################################################
+# Structures
+######################################################
+
+
+
+######################################################
+# Constants (only 1 tab allowed before...)
+######################################################
+
+# HC_Board.h *****************************************
+HC_VARIANT_UNKNOWN	LITERAL1
+HC_VARIANT_CIRCUITPLAY	LITERAL1
+HC_VARIANT_EIGHTANALOGINPUTS	LITERAL1
+HC_VARIANT_ETHERNET	LITERAL1
+HC_VARIANT_GEMMA	LITERAL1
+HC_VARIANT_LEONARDO	LITERAL1
+HC_VARIANT_MEGA	LITERAL1
+HC_VARIANT_MICRO	LITERAL1
+HC_VARIANT_ROBOTCONTROL	LITERAL1
+HC_VARIANT_ROBOTMOTOR	LITERAL1
+HC_VARIANT_STANDARD	LITERAL1
+HC_VARIANT_YUN	LITERAL1
+HC_VARIANT_DUE	LITERAL1
+HC_VARIANT_MKR1000	LITERAL1
+HC_VARIANT_MKRZERO	LITERAL1
+HC_VARIANT_MKR1200_1300_1400	LITERAL1
+HC_VARIANT_ZERO	LITERAL1
+HC_VARIANT_UNO2018	LITERAL1
+HC_VARIANT_NONA4809	LITERAL1
+
+
+# HC_Data.h ******************************************
+HC_DD_QTY	LITERAL1
+HC_AD_QTY	LITERAL1
+DIGITAL	LITERAL1
+PWM	LITERAL1
+
+
+# HC_ServoManager.h **********************************
+ATTACH	LITERAL1
+DETACH	LITERAL1
+
+
+# HC_Enum.h ******************************************
+DIGITAL	LITERAL1
+PWM	LITERAL1
+
+HC_USERSPACE_BOOLEAN	LITERAL1
+HC_USERSPACE_BYTE	LITERAL1
+HC_USERSPACE_INTEGER	LITERAL1
+HC_USERSPACE_LONG	LITERAL1
+HC_USERSPACE_FLOAT	LITERAL1
+HC_USERSPACE_STRING	LITERAL1
+HC_USERSPACE_QTY	LITERAL1

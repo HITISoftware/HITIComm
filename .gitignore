@@ -1,0 +1,6 @@
+# Visual Micro
+*.vcxitems
+*.vcxitems.user
+
+# Arduino
+*.development
