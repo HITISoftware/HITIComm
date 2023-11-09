@@ -1,6 +1,10 @@
+# Specify the files which must not be tracked by Git
+
 # Visual Micro
+##############
 *.vcxitems
 *.vcxitems.user
 
 # Arduino
+#########
 *.development

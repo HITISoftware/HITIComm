@@ -1,0 +1,9 @@
+# Don't include the following files in the archive
+#(useful when creating a Release in which the archive is available as a .zip file)
+##################################################################################
+
+# .gitignore, .gitattributes
+.git*  export-ignore
+
+# source files, so that precompiled files are used instead
+*.cpp  export-ignore
