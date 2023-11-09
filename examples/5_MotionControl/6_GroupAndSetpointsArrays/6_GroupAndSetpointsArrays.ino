@@ -32,15 +32,15 @@ const int pin_Servo_3 = 10;
 const int pin_Servo_4 = 11;
 
 // Analog Data assignment
-const int ad_Step        = 0; // sequence step
-const int ad_Position_S1 = 1; // current positions (Servo 1-4)
-const int ad_Position_S2 = 2;
-const int ad_Position_S3 = 3;
-const int ad_Position_S4 = 4;
+const int ad_Step        = 0; // metric (sequence step)
+const int ad_Position_S1 = 1; // metric (position in °)
+const int ad_Position_S2 = 2; // metric (position in °)
+const int ad_Position_S3 = 3; // metric (position in °)
+const int ad_Position_S4 = 4; // metric (position in °)
 
 // Digital Data assignment
-const int dd_Start = 0; // virtual buttons
-const int dd_Stop  = 1;
+const int dd_Start = 0; // virtual button
+const int dd_Stop  = 1; // virtual button
 
 // motion sequence in 6 steps: 0 (Ready), 1-5 (Motions)
 int step = 0;
@@ -100,11 +100,11 @@ void loop()
     // start/stop motion sequence --------------------------------------------
 
     // step 0: ready to start sequence with the START button
-    if ((step == 0) && HC_digitalDataRead(dd_Start))
+    if (HC_digitalDataRead_click(dd_Start) && (step == 0))
         step = 1; // start sequence
 
     // at any step: stop sequence with the STOP button
-    if (HC_digitalDataRead(dd_Stop))
+    if (HC_digitalDataRead_click(dd_Stop))
     {
         group.stopNow(); // stop group
         step = 0;        // reset sequence
@@ -125,10 +125,6 @@ void loop()
         if (group.isEnding())
             onMotionDone();
     }
-
-    // deactivate the Virtual Buttons
-    HC_digitalDataWrite(dd_Start, false);
-    HC_digitalDataWrite(dd_Stop, false);
 
 
     // display data in HITIPanel ---------------------------------------------

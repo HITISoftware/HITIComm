@@ -59,15 +59,10 @@ void loop()
     // after 1500 ms (when Timer 3 ends), do nothing
     timers.delay(3, 1500);
 
-    // if the Button is activated (from Command Panel 0) 
-    if (HC_digitalDataRead(dd_ResetSwitch) == HIGH)
-    {
-        // deactivate the Button
-        HC_digitalDataWrite(dd_ResetSwitch, LOW);
-
+    // if the Button is clicked (from Command Panel 0) 
+    if (HC_digitalDataRead_click(dd_ResetSwitch) == HIGH)
         // reset MultiTimer
         timers.reset();
-    }
 
     // display Start Times and Elapsed Times (Timers 0 to 3 => AD0 to AD3)
     for (byte i = 0; i <= 3; i++)

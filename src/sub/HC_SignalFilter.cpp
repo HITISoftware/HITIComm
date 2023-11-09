@@ -65,10 +65,14 @@
 		// if memory allocated, clear memory
 		if (mBuffer != 0)
 		{
-			delete mBuffer;
-			delete mBufferMask;
+			delete[] mBuffer;
+			delete[] mBufferMask;
+			delete[] mTempBuffer;
+			delete[] mTempBufferMask;
 			mBuffer = 0;
 			mBufferMask = 0;
+			mTempBuffer = 0;
+			mTempBufferMask = 0;
 		}
 	}
 
@@ -120,31 +124,42 @@
 		// - descending: value at index i is the max value of all values (j) at its right
 		// - put all non-assigned values at the end
 		
-		for(uint8_t i = 0; i < (size-1); ++i)
+		// Move all unassigned values to left
+		for (uint8_t i = 0; i < (size - 1); ++i)
 		{
-			for(uint8_t j = i; j < size; ++j)
+			if (mask[i])
 			{
-				if(mask[j])
+				for (uint8_t j = (i + 1); j < size; ++j)
 				{
-					if(mask[i])
+					if (!mask[j])
 					{
-						// compare and invert values at index i and j
-						if(((array[i] > array[j]) && ascending) ||
+						// invert assigned value at index i, with the first non-assigned value on its right at index j
+						array[j] = array[i];
+						mask[j] = true;
+						array[i] = 0.0;
+						mask[i] = false;
+						break;
+					}
+				}
+			}
+		}
+
+		for (uint8_t i = 0; i < (size - 1); ++i)
+		{
+			if (mask[i])
+			{
+				for (uint8_t j = (i + 1); j < size; ++j)
+				{
+					if (mask[j])
+					{
+						// compare and switch assigned values at index i and j
+						if (((array[i] > array[j]) && ascending) ||
 							((array[i] < array[j]) && !ascending))
 						{
 							float buffer = array[i];
 							array[i] = array[j];
 							array[j] = buffer;
 						}
-					}
-					else
-					{
-						// invert non-assigned value at index i, with the first assigned value found at its right
-						array[i] = array[j];
-						mask[i] = true;
-						array[j] = 0.0;
-						mask[j] = false;
-						break;
 					}
 				}
 			}
@@ -160,7 +175,6 @@
 	{
 		sort(array, mask, size, false);
 	}
-
 
 	float HC_SignalFilter::average(float* array, bool* mask, uint8_t size)
 	{
@@ -181,14 +195,28 @@
 
 	float HC_SignalFilter::median(float* array, bool* mask, uint8_t size)
 	{
+		// allocate memory for working arrays only if Median filter is used
+		if (mTempBuffer == 0 && mTempBufferMask == 0)
+		{
+			mTempBuffer = new float[mSize];
+			mTempBufferMask = new bool[mSize];
+		}
+
+		// copy data to working arrays
+		for (int i = 0; i < mSize; i++)
+		{
+			mTempBuffer[i] = array[i];
+			mTempBufferMask[i] = mask[i];
+		}
+
 		// sort array in ascending order
-		sortAscending(array, mask, size);
+		sortAscending(mTempBuffer, mTempBufferMask, size);
 
 		// count amount of non-NULL_POINTER data
 		uint8_t counter = 0;
 		for (uint8_t i = 0; i < size; ++i)
 		{
-			if (mask[i])
+			if (mTempBufferMask[i])
 				counter++;
 		}
 

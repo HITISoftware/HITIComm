@@ -243,7 +243,7 @@
 	float HC_MotionManager::getStroke() const					{ return mTargetPosition - mInitialPosition; }	// positive or negative
 	float HC_MotionManager::getTargetPosition() const			{ return mTargetPosition; }
 	float HC_MotionManager::getTargetSpeed() const				{ return mIncrement < 0 ? -mTargetSpeed : mTargetSpeed; }
-	float HC_MotionManager::getContinuousTargetSpeed() const	{ return mConIncrement < 0 ? -mConTargetSpeed : mConTargetSpeed; }
+	float HC_MotionManager::getContinuousTargetSpeed() const	{ return mConEffectiveIncrement < 0 ? -mConTargetSpeed : mConTargetSpeed; }
 	float HC_MotionManager::getMotionTime() const				{ return mMotionTime; }
 
 	uint8_t HC_MotionManager::getCycleTime() const					{ return mCycleTime; }
@@ -252,7 +252,7 @@
 	float HC_MotionManager::getMaxSpeed() const					{ return mMaxSpeed; };
 
 	float HC_MotionManager::getIncrement() const				{ return mIncrement; }
-	float HC_MotionManager::getContinuousIncrement() const		{ return mConIncrement; }
+	float HC_MotionManager::getContinuousIncrement() const		{ return mConEffectiveIncrement; }
 
 	bool HC_MotionManager::isReady() const						{ return (mState == State::HC_READY); }
 	bool HC_MotionManager::isStarting() const					{ return mIsStarting; }
@@ -281,13 +281,10 @@
 	
 	void HC_MotionManager::calculateContinuousIncrement()
 	{
-		// value
+		// setpoint (>= 0)
 		mConIncrement = mConTargetSpeed * ((float) mConCycleTime) / 1000.0; // >= 0
-		
-		// sign: defined later in generateContinuously()
 	}
-	
-	
+
 	// generate position profile
 	// calculate a setpoint position at each call. This setpoint changes every cycle
 	// => return false = request to end motion
@@ -340,6 +337,7 @@
 
 	// generate continuous position profile
 	// calculate a setpoint position at each call. This setpoint changes every cycle
+	// => return false = request to end motion
 	bool HC_MotionManager::generateContinuously(
 			bool command,
 			bool direction,
@@ -355,11 +353,18 @@
 				return false;
 			else
 			{
-				// State -> Generating continuously (2 or 3)
-				if(direction)
+				// State -> Generating continuously
+				// calculate effective increment
+				if (direction)
+				{
 					mState = State::HC_GENERATING_CONTINUOUSLY_POS;
+					mConEffectiveIncrement = mConIncrement;
+				}
 				else
+				{
 					mState = State::HC_GENERATING_CONTINUOUSLY_NEG;
+					mConEffectiveIncrement = -mConIncrement;
+				}
 
 				// record start time
 				mLastConIncrementTime = HCS_millis();
@@ -367,10 +372,6 @@
 				// initialize setpoint
 				mTargetPosition_setpoint = startPosition;
 				
-				// define increment sign
-				if (!direction)
-					mConIncrement *= -1;
-
 				// increment position setpoint and update motion state	
 				return incrementPositionSetpointContinuously(command, direction);
 			}
@@ -445,9 +446,9 @@
 		// if motion is allowed in this direction
 		if(isMotionAllowed(mTargetPosition_setpoint, direction))
 		{
-			if(command)
+			if (command)
 				// add increment to position setpoint
-				mTargetPosition_setpoint += mConIncrement;
+				mTargetPosition_setpoint += mConEffectiveIncrement;
 			else
 				return false;
 				

@@ -327,6 +327,12 @@ long unsigned HC_readDD();
 // read boolean
 bool HC_readDD(uint8_t index);
 bool HC_digitalDataRead(uint8_t index);
+bool HC_digitalDataRead_click(uint8_t index);
+
+// check for rising/falling edges
+void HCI_recordDD();
+bool HC_digitalDataRead_risingEdge(uint8_t index);
+bool HC_digitalDataRead_fallingEdge(uint8_t index);
 
 
 // -----------------------------------------------------------------------------
@@ -340,6 +346,8 @@ void HC_analogDataWrite(uint8_t index, float value);
 // read float
 float HC_readAD(uint8_t index);
 float HC_analogDataRead(uint8_t index);
+float HC_analogDataRead_setpoint(uint8_t index, float min, float max);
+float HC_analogDataRead_setpoint(uint8_t index, float min, float max, float min_remapped, float max_remapped);
 
 // mode (mask of non null AD)
 // get g_AD_mode

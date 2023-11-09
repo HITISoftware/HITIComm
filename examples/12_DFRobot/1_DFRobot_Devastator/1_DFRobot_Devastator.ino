@@ -50,23 +50,27 @@ const int pin_ServoT                  = 9;
 // 1 Distance sensor
 const int pin_distanceSensor          = A0;
 
-// HITI Analog Data assignment
-const int AD_Motors_Speed             = 0;
-const int AD_Servos_Speed             = 1;
-const int AD_ServoP_Position          = 2;
-const int AD_ServoT_Position          = 3;
-const int AD_distance                 = 4;
+// Analog Data assignment
+const int ad_Motors_Speed             = 0; // Setpoint (no unit)
+const int ad_Servos_Speed             = 1; // Setpoint (in °/s)
+const int ad_ServoP_Position          = 2; // Metric (in °)
+const int ad_ServoT_Position          = 3; // Metric (in °)
+const int ad_distance                 = 4; // Metric (in cm)
 
-// HITI Digital Data assignment
+// Digital Data assignment
 // motion triggers
-const int DD_GoForward_Motors         = 0;
-const int DD_GoBackward_Motors        = 1;
-const int DD_TurnLeft_Motors          = 2;
-const int DD_TurnRight_Motors         = 3;
-const int DD_GoForward_ServoP         = 4;
-const int DD_GoBackward_ServoP        = 5;
-const int DD_GoForward_ServoT         = 6;
-const int DD_GoBackward_ServoT        = 7;
+const int dd_GoForward_Motors         = 0; // Virtual Switch
+const int dd_GoBackward_Motors        = 1; // Virtual Switch
+const int dd_TurnLeft_Motors          = 2; // Virtual Switch
+const int dd_TurnRight_Motors         = 3; // Virtual Switch
+const int dd_GoForward_ServoP         = 4; // Virtual Switch
+const int dd_GoBackward_ServoP        = 5; // Virtual Switch
+const int dd_GoForward_ServoT         = 6; // Virtual Switch
+const int dd_GoBackward_ServoT        = 7; // Virtual Switch
+const int dd_NegLimit_ServoP          = 8;  // Indicator
+const int dd_PosLimit_ServoP          = 9;  // Indicator
+const int dd_NegLimit_ServoT          = 10; // Indicator
+const int dd_PosLimit_ServoT          = 11; // Indicator
 
 // HITIComm Servo
 HC_Servo servoP;
@@ -116,8 +120,8 @@ void setup()
 	servoT.travelLimits(52.0, 175.0);
 
 	// display initial values of motion control parameters in HITIPanel
-	HC_analogDataWrite(AD_Motors_Speed, motors_speedSetpoint);
-	HC_analogDataWrite(AD_Servos_Speed, servos_speedSetpoint);
+	HC_analogDataWrite(ad_Motors_Speed, motors_speedSetpoint);
+	HC_analogDataWrite(ad_Servos_Speed, servos_speedSetpoint);
 }
 
 
@@ -135,15 +139,8 @@ void loop()
 	// receive and set new motion parameters**********************************
 
 	// continuous speed setpoint
-	motors_speedSetpoint = (char) HC_analogDataRead(AD_Motors_Speed);
-	servos_speedSetpoint = HC_analogDataRead(AD_Servos_Speed);
-
-	// limit speed
-	if (motors_speedSetpoint < 0  ) motors_speedSetpoint = 0;
-	if (motors_speedSetpoint > 255) motors_speedSetpoint = 255;
-
-	if (servos_speedSetpoint < -100.0) servos_speedSetpoint = -100.0;
-	if (servos_speedSetpoint >  100.0) servos_speedSetpoint =  100.0;
+	motors_speedSetpoint = (char) HC_analogDataRead_setpoint(ad_Motors_Speed, 0, 255);
+	servos_speedSetpoint = HC_analogDataRead_setpoint(ad_Servos_Speed, 0, 100.0);
 
 	// set Servos speed
 	servoP.continuousSpeed(servos_speedSetpoint);
@@ -152,29 +149,34 @@ void loop()
 
 	// trigger motion*********************************************************
 
-	if      (HC_digitalDataRead(DD_GoForward_Motors))  go_forward (motors_speedSetpoint);
-	else if (HC_digitalDataRead(DD_GoBackward_Motors)) go_backward(motors_speedSetpoint);
-	else if (HC_digitalDataRead(DD_TurnLeft_Motors))   turn_left  (motors_speedSetpoint);
-	else if (HC_digitalDataRead(DD_TurnRight_Motors))  turn_right (motors_speedSetpoint);
+	if      (HC_digitalDataRead(dd_GoForward_Motors))  go_forward (motors_speedSetpoint);
+	else if (HC_digitalDataRead(dd_GoBackward_Motors)) go_backward(motors_speedSetpoint);
+	else if (HC_digitalDataRead(dd_TurnLeft_Motors))   turn_left  (motors_speedSetpoint);
+	else if (HC_digitalDataRead(dd_TurnRight_Motors))  turn_right (motors_speedSetpoint);
 	else                                               stop();
 
 	// move forward or backward (if querried)
-	servoP.movePositive(HC_digitalDataRead(DD_GoForward_ServoP));
-	servoP.moveNegative(HC_digitalDataRead(DD_GoBackward_ServoP));
-	servoT.movePositive(HC_digitalDataRead(DD_GoForward_ServoT));
-	servoT.moveNegative(HC_digitalDataRead(DD_GoBackward_ServoT));
+	servoP.movePositive(HC_digitalDataRead(dd_GoForward_ServoP));
+	servoP.moveNegative(HC_digitalDataRead(dd_GoBackward_ServoP));
+	servoT.movePositive(HC_digitalDataRead(dd_GoForward_ServoT));
+	servoT.moveNegative(HC_digitalDataRead(dd_GoBackward_ServoT));
 
 
 	// limited speed monitoring **********************************************
 
-	HC_analogDataWrite(AD_Motors_Speed, motors_speedSetpoint);
-	HC_analogDataWrite(AD_Servos_Speed, servos_speedSetpoint);
+	HC_analogDataWrite(ad_Motors_Speed, motors_speedSetpoint);
+	HC_analogDataWrite(ad_Servos_Speed, servos_speedSetpoint);
 
 
 	// Servo position monitoring *********************************************
 
-	HC_analogDataWrite(AD_ServoP_Position, servoP.getCurrentPosition());
-	HC_analogDataWrite(AD_ServoT_Position, servoT.getCurrentPosition());
+  HC_digitalDataWrite(dd_NegLimit_ServoP, servoP.isNegLimitReached());
+  HC_digitalDataWrite(dd_PosLimit_ServoP, servoP.isPosLimitReached());
+  HC_digitalDataWrite(dd_NegLimit_ServoT, servoT.isNegLimitReached());
+  HC_digitalDataWrite(dd_PosLimit_ServoT, servoT.isPosLimitReached());
+
+	HC_analogDataWrite(ad_ServoP_Position, servoP.getCurrentPosition());
+	HC_analogDataWrite(ad_ServoT_Position, servoT.getCurrentPosition());
 
 
 	// Distance Sensor (in cm)************************************************
@@ -186,7 +188,7 @@ void loop()
 	//   => (sensorValue * 5000 / 1024 )   ->   value in V
 	//   => value in V / 4.125             ->   value in cm
 	//       => sensorValue * 1.1
-	HC_analogDataWrite(AD_distance, (1.1*((double)sensorValue)));
+	HC_analogDataWrite(ad_distance, (1.1*((double)sensorValue)));
 }
 
 
@@ -197,31 +199,31 @@ void loop()
 
 void stop()                   
 {
-    digitalWrite(pin_MotorR_SpeedControl,     0);
-    digitalWrite(pin_MotorR_DirectionControl, LOW);
-    digitalWrite(pin_MotorL_SpeedControl,     0);
-    digitalWrite(pin_MotorL_DirectionControl, LOW);
+  digitalWrite(pin_MotorR_SpeedControl,     0);
+  digitalWrite(pin_MotorR_DirectionControl, LOW);
+  digitalWrite(pin_MotorL_SpeedControl,     0);
+  digitalWrite(pin_MotorL_DirectionControl, LOW);
 }
 
 void go_forward(byte speedL, byte speedR)
 {
-	analogWrite (pin_MotorR_SpeedControl,     map(speedR, 0, 255, motors_threshold, 255));
-	digitalWrite(pin_MotorR_DirectionControl, HIGH);
-	analogWrite (pin_MotorL_SpeedControl,     map(speedL, 0, 255, motors_threshold, 255));
-	digitalWrite(pin_MotorL_DirectionControl, HIGH);
+  analogWrite (pin_MotorR_SpeedControl,     map(speedR, 0, 255, motors_threshold, 255));
+  digitalWrite(pin_MotorR_DirectionControl, HIGH);
+  analogWrite (pin_MotorL_SpeedControl,     map(speedL, 0, 255, motors_threshold, 255));
+  digitalWrite(pin_MotorL_DirectionControl, HIGH);
 }
 
 void go_forward(byte a)
 {
-	go_forward(a, a);
+  go_forward(a, a);
 }
 
 void go_backward(byte speedL, byte speedR)
 {
-    analogWrite (pin_MotorR_SpeedControl,     map(speedR, 0, 255, motors_threshold, 255));
-    digitalWrite(pin_MotorR_DirectionControl, LOW);
-    analogWrite (pin_MotorL_SpeedControl,     map(speedL, 0, 255, motors_threshold, 255));
-    digitalWrite(pin_MotorL_DirectionControl, LOW);
+  analogWrite (pin_MotorR_SpeedControl,     map(speedR, 0, 255, motors_threshold, 255));
+  digitalWrite(pin_MotorR_DirectionControl, LOW);
+  analogWrite (pin_MotorL_SpeedControl,     map(speedL, 0, 255, motors_threshold, 255));
+  digitalWrite(pin_MotorL_DirectionControl, LOW);
 }
 
 void go_backward(byte speed)
@@ -231,10 +233,10 @@ void go_backward(byte speed)
 
 void turn_left(byte speedL, byte speedR)
 {
-    analogWrite (pin_MotorR_SpeedControl,     map(speedR, 0, 255, motors_threshold, 255));
-    digitalWrite(pin_MotorR_DirectionControl, HIGH);
-    analogWrite (pin_MotorL_SpeedControl,     map(speedL, 0, 255, motors_threshold, 255));
-    digitalWrite(pin_MotorL_DirectionControl, LOW);
+  analogWrite (pin_MotorR_SpeedControl,     map(speedR, 0, 255, motors_threshold, 255));
+  digitalWrite(pin_MotorR_DirectionControl, HIGH);
+  analogWrite (pin_MotorL_SpeedControl,     map(speedL, 0, 255, motors_threshold, 255));
+  digitalWrite(pin_MotorL_DirectionControl, LOW);
 }
 
 void turn_left(byte speed)
@@ -244,13 +246,13 @@ void turn_left(byte speed)
 
 void turn_right(byte speedL, byte speedR)
 {
-    analogWrite (pin_MotorR_SpeedControl,     map(speedR, 0, 255, motors_threshold, 255));
-    digitalWrite(pin_MotorR_DirectionControl, LOW);
-    analogWrite (pin_MotorL_SpeedControl,     map(speedL, 0, 255, motors_threshold, 255));
-    digitalWrite(pin_MotorL_DirectionControl, HIGH);
+  analogWrite (pin_MotorR_SpeedControl,     map(speedR, 0, 255, motors_threshold, 255));
+  digitalWrite(pin_MotorR_DirectionControl, LOW);
+  analogWrite (pin_MotorL_SpeedControl,     map(speedL, 0, 255, motors_threshold, 255));
+  digitalWrite(pin_MotorL_DirectionControl, HIGH);
 }
 
 void turn_right(byte speed)
 {
-	turn_right(speed, speed);
+  turn_right(speed, speed);
 }

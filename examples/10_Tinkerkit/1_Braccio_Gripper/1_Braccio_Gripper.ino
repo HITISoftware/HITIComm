@@ -39,24 +39,24 @@ const int pin_Servo_Gripper  = 3;
 const int pin_SoftStartControl = SOFT_START_CONTROL_PIN; // pin 12: internally used by Braccio
 
 // Analog Data assignment
-const int ad_PosSetpoint       = 0; // position (setpoint, target, current)
-const int ad_PosTarget         = 1;
-const int ad_PosCurrent        = 2;
-const int ad_SpeSetpoint       = 3; // speed (setpoint, max, target, current)
-const int ad_SpeMax            = 4;
-const int ad_SpeTarget         = 5;
-const int ad_SpeCurrent        = 6;
-const int ad_MotionTime        = 7; // motion time (target)
+const int ad_PosSetpoint       = 0; // setpoint (in °)
+const int ad_PosTarget         = 1; // metric (in °)
+const int ad_PosCurrent        = 2; // metric (in °)
+const int ad_SpeSetpoint       = 3; // setpoint (in °/s or in s)
+const int ad_SpeMax            = 4; // setpoint (in °/s)
+const int ad_SpeTarget         = 5; // metric (in °/s)
+const int ad_SpeCurrent        = 6; // metric (in °/s)
+const int ad_MotionTime        = 7; // metric (in s)
 
 // Digital Data assignment
-const int dd_PosType           = 0; // position (setpoint type)
-const int dd_SpeType           = 1; // speed (setpoint type)
-const int dd_Start             = 2; // virtual buttons
-const int dd_Stop              = 3; 
-const int dd_ServoIsReady      = 4; // servo state
-const int dd_ServoIsMoving     = 5;
-const int dd_NegLimitIsReached = 6; // travel limits
-const int dd_PosLimitIsReached = 7;
+const int dd_PosType           = 0; // virtual switch (position setpoint type)
+const int dd_SpeType           = 1; // virtual switch (speed setpoint type)
+const int dd_Start             = 2; // virtual button
+const int dd_Stop              = 3; // virtual button
+const int dd_ServoIsReady      = 4; // indicator (servo state)
+const int dd_ServoIsMoving     = 5; // indicator (servo state)
+const int dd_NegLimitIsReached = 6; // indicator (travel limit)
+const int dd_PosLimitIsReached = 7; // indicator (travel limit)
 
 // position control
 bool  posType     = LOW; // LOW: absolute    /  HIGH: relative
@@ -168,12 +168,8 @@ void loop()
     // start/stop motion -----------------------------------------------------
     
     // move/stop on trigger (START/STOP buttons)
-    servo_Gripper.moveOnTrigger(HC_digitalDataRead(dd_Start));
-    servo_Gripper.stopOnTrigger(HC_digitalDataRead(dd_Stop));
-
-    // deactivate the virtual buttons
-    HC_digitalDataWrite(dd_Start, false);
-    HC_digitalDataWrite(dd_Stop,  false);
+    servo_Gripper.moveOnTrigger(HC_digitalDataRead_click(dd_Start));
+    servo_Gripper.stopOnTrigger(HC_digitalDataRead_click(dd_Stop));
 
 
     // display data in HITIPanel ---------------------------------------------

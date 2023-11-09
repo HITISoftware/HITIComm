@@ -111,6 +111,8 @@ static const char* g_pgm_projectVersion = NULL_POINTER;
 // => binary mode (0: LOW, 1: HIGH)       
 static long unsigned g_DD = 0; // unsigned int (32 bit)
 
+// Previous Digital Data register (used to detect rising/falling edges)
+static long unsigned g_DD_previous = 0; // unsigned int (32 bit)
 
 // HITI Analog Data array
 static float g_AD[HC_AD_QTY] = { 0.0 };   // float (32 bit) array
@@ -540,8 +542,8 @@ bool HCI_InputsMode_hasChanged()
     inputsMode_hasChanged = (g_inputsMode_previous_L != inputsMode_L) || (g_inputsMode_previous_H != inputsMode_H);
 
     // record values
-    g_inputsMode_previous_L = g_inputsMode_previous_L;
-    g_inputsMode_previous_H = g_inputsMode_previous_H;
+    g_inputsMode_previous_L = inputsMode_L;
+    g_inputsMode_previous_H = inputsMode_H;
 #else
     // read Pins Mode
     unsigned long inputsMode = HC_readInputsMode();
@@ -636,7 +638,7 @@ bool HCI_InputsMode_hasChanged()
 #else
     void HC_outputTypes(long unsigned Output_type)
     {
-        // check for ranges
+        // check for changes
         if (g_outputType != Output_type)
         {
             g_OutputTypes_hasChanged = true;
@@ -1279,6 +1281,45 @@ bool HC_digitalDataRead(uint8_t index)
     return HC_readDD(index);
 }
 
+bool HC_digitalDataRead_click(uint8_t index)
+{
+    if (HC_digitalDataRead(index))
+    {
+        // reset/consume digital data
+        HC_digitalDataWrite(index, false);
+
+        return true;
+    }
+
+    return 0;
+}
+
+
+// check for rising/falling edges **********************************************
+void HCI_recordDD()
+{
+    // record values
+    g_DD_previous = g_DD;
+}
+
+bool HC_digitalDataRead_risingEdge(uint8_t index)
+{
+    // digital data 0 to 31
+    if (index < HC_DD_QTY)
+        return !HCS_readBit(g_DD_previous, index) && HCS_readBit(g_DD, index);
+    else
+        return 0;
+}
+
+bool HC_digitalDataRead_fallingEdge(uint8_t index)
+{
+    // digital data 0 to 31
+    if (index < HC_DD_QTY)
+        return HCS_readBit(g_DD_previous, index) && !HCS_readBit(g_DD, index);
+    else
+        return 0;
+}
+
 
 
 // -----------------------------------------------------------------------------
@@ -1313,6 +1354,29 @@ float HC_readAD(uint8_t index)
 float HC_analogDataRead(uint8_t index)
 {
     return HC_readAD(index);
+}
+
+float HC_analogDataRead_setpoint(uint8_t index, float min, float max)
+{
+    float input = HC_readAD(index);
+
+    // constrain into given range
+    input = HCS_constrain(input, min, max);
+    
+    // update Analog Data
+    HC_analogDataWrite(index, input);
+
+    return input;
+}
+
+float HC_analogDataRead_setpoint(uint8_t index, float min, float max, float min_remapped, float max_remapped)
+{
+    float input = HC_analogDataRead_setpoint(index, min, max);
+
+    // remap from range min-max to range min_remapped-max-remapped
+    input = HCS_map(input, min, max, min_remapped, max_remapped);
+
+    return input;
 }
 
 

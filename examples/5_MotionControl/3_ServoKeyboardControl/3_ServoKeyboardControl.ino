@@ -21,17 +21,17 @@ HITIComm examples:  Motion Control / 3_ServoKeyboardControl
 const int pin_Servo = 8;
 
 // Analog Data assignment
-const int ad_PosCurrent        = 0; // position (current)
-const int ad_ConSpeSetpoint    = 1; // continuous speed (setpoint, max, target, current)
-const int ad_ConSpeMax         = 2;
-const int ad_ConSpeTarget      = 3;
-const int ad_ConSpeCurrent     = 4;
+const int ad_PosCurrent        = 0; // metric (position in °)
+const int ad_ConSpeSetpoint    = 1; // setpoint (continuous speed in °/s)
+const int ad_ConSpeMax         = 2; // setpoint (continuous speed in °/s)
+const int ad_ConSpeTarget      = 3; // metric (continuous speed in °/s)
+const int ad_ConSpeCurrent     = 4; // metric (continuous speed in °/s)
 
 // Digital Data assignment
-const int dd_MoveNeg           = 0; // virtual switches
-const int dd_MovePos           = 1;
-const int dd_NegLimitIsReached = 2; // travel limits
-const int dd_PosLimitIsReached = 3;
+const int dd_MoveNeg           = 0; // virtual switch
+const int dd_MovePos           = 1; // virtual switch
+const int dd_NegLimitIsReached = 2; // indicator (travel limit)
+const int dd_PosLimitIsReached = 3; // indicator (travel limit)
 
 // continuous speed control
 float conSpeSetpoint = 10.0; // °/s

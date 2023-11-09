@@ -1,18 +1,4 @@
-﻿#HITIComm
-#keywords.txt - Keywords list
-
-#Version 1.5.4
-
-#Copyright © 2021 Christophe LANDRET. All rights reserved.
-
-#This library is licensed to you by Tahiti Robotics SARL (HITISoftware) under the
-#attached EULA (see LICENSE file).
-
-#This EULA is updated regularly. Latest version is available at: https://hitisoftware.com/
-#You may not use this library except in compliance with this EULA.
-  
-
-#KEYWORD1 	datatypes 				editor.data_type.style
+﻿#KEYWORD1 	datatypes 				editor.data_type.style
 #KEYWORD2 	functions, instances 	editor.function.style
 #KEYWORD3 	structures 				editor.function.style
 #LITERAL1 	constants 				editor.reserved_word_2.style
@@ -106,11 +92,15 @@ HC_writeDD				KEYWORD2
 HC_digitalDataWrite		KEYWORD2
 HC_readDD				KEYWORD2
 HC_digitalDataRead		KEYWORD2
+HC_digitalDataRead_click		KEYWORD2
+HC_digitalDataRead_risingEdge		KEYWORD2
+HC_digitalDataRead_fallingEdge		KEYWORD2
 
 HC_writeAD				KEYWORD2
 HC_analogDataWrite		KEYWORD2
 HC_readAD				KEYWORD2
 HC_analogDataRead		KEYWORD2
+HC_analogDataRead_setpoint		KEYWORD2
 
 HC_writeString			KEYWORD2
 HC_readString			KEYWORD2

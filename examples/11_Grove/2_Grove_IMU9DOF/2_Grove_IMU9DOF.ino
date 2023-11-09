@@ -47,10 +47,8 @@ void loop()
 
     // every 30ms
     if(timer.delay(30))
-    {
-      // read sensor data (takes up to 25ms)
-      accelgyro.getMotion9(&ax, &ay, &az, &gx, &gy, &gz, &mx, &my, &mz);
-    }
+        // read sensor data (takes up to 25ms)
+        accelgyro.getMotion9(&ax, &ay, &az, &gx, &gy, &gz, &mx, &my, &mz);
     
     // display data in HITIPanel
     HC_analogDataWrite(0, (float) ax * 2    / 32768); // +/- 2g (16 bit)

@@ -50,15 +50,10 @@ void loop()
     if (timer.delay(2000))
         digitalWrite(pin_LED, LOW);
 
-    // if the Button is activated (from Command Panel DD0) 
-    if (HC_digitalDataRead(dd_ResetButton) == HIGH)
-    {
-        // deactivate the Button
-        HC_digitalDataWrite(dd_ResetButton, LOW);
-
+    // if the Button is clicked (from Command Panel DD0) 
+    if (HC_digitalDataRead_click(dd_ResetButton) == HIGH)
         // reset Timer
         timer.reset();
-    }
 
     // display Start Time and Elapsed Time (in Command Panels AD0 and AD1)
     HC_analogDataWrite(ad_StartTime, timer.getStartTime());

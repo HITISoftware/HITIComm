@@ -18,6 +18,9 @@ const int pin_LED = LED_BUILTIN;
 // HITI Timer
 HC_Timer timer;
 
+// LED state (ON/OFF)
+bool LED_state;
+
 void setup()
 {
     // initialize library
@@ -34,11 +37,8 @@ void loop()
 
     // run Timer
     if (timer.delay(500))
-    {
         // when Timer ends (every 0.5s)  => toggle LED state
-        if (digitalRead(pin_LED) == LOW)
-            digitalWrite(pin_LED, HIGH);
-        else
-            digitalWrite(pin_LED, LOW);
-    }
+        LED_state = !LED_state;
+
+    digitalWrite(pin_LED, LED_state);
 }

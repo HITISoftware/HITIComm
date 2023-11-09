@@ -188,7 +188,7 @@ class HC_MotionManager
 		// calculate increment
 		void calculateFiniteIncrement();
 		void calculateContinuousIncrement();
-		
+
 		// adjust speed to max speed
 		void limitFiniteSpeed();
 		void limitContinuousSpeed();
@@ -242,9 +242,10 @@ class HC_MotionManager
 		unsigned long mLastIncrementTime; 	// time at which last increment move was scheduled (ms)
 		
 		// CONTINOUS motion
-		float mConTargetSpeed;     				// motion speed (/s)
+		float mConTargetSpeed;     				// motion speed (/s) (setpoint, >= 0)
 		uint8_t mConCycleTime = 10;				// cycle time (ms). Min 10
-		float mConIncrement; 					// motion performed each cycle
+		float mConIncrement; 					// motion performed each cycle (setpoint, >= 0)
+		float mConEffectiveIncrement; 			// motion performed each cycle (used for calculations, > 0 or < 0)
 		unsigned long mLastConIncrementTime;	// time at which last increment move was scheduled (ms)
 				
 		// Motion STATE

@@ -21,12 +21,12 @@
 const int pin_Servo   = 8;
 
 // Analog Data assignment
-const int ad_Step     = 0; // sequence step
-const int ad_Position = 1; // servo position
+const int ad_Step     = 0; // metric (sequence step)
+const int ad_Position = 1; // metric (servo position in °)
 
 // Digital Data assignment
-const int dd_Start    = 0; // virtual switches
-const int dd_Stop     = 1;
+const int dd_Start    = 0; // virtual switch
+const int dd_Stop     = 1; // virtual switch
 
 // motion sequence in 5 steps: 0 (Ready), 1-4 (Motions)
 int step = 0;
@@ -59,11 +59,11 @@ void loop()
     // start/stop motion sequence --------------------------------------------
     
     // step 0: ready to start sequence with the START button
-    if ((step == 0) && HC_digitalDataRead(dd_Start))
+    if (HC_digitalDataRead_click(dd_Start) && (step == 0))
         step = 1; // start sequence
     
     // at any step: stop sequence with the STOP button
-    if(HC_digitalDataRead(dd_Stop))
+    if(HC_digitalDataRead_click(dd_Stop))
     {
         servo.stopNow();  // stop servo
         step = 0;         // reset sequence
@@ -85,11 +85,7 @@ void loop()
     else if (step == 4)
         doStep(20,  1.5); // move back to position 20° in 1.5s
     
-    // deactivate Virtual Buttons
-    HC_digitalDataWrite(dd_Start, false);
-    HC_digitalDataWrite(dd_Stop, false);
-    
-    
+        
     // display data in HITIPanel -----------------------------------------------
     
     HC_analogDataWrite(ad_Step,     step);

@@ -24,24 +24,24 @@
 const int pin_Servo = 8;
 
 // Analog Data assignment
-const int ad_PosSetpoint       = 0; // position (setpoint, target, current)
-const int ad_PosTarget         = 1;
-const int ad_PosCurrent        = 2;
-const int ad_SpeSetpoint       = 3; // speed (setpoint, max, target, current)
-const int ad_SpeMax            = 4;
-const int ad_SpeTarget         = 5;
-const int ad_SpeCurrent        = 6;
-const int ad_MotionTime        = 7; // motion time (target)
+const int ad_PosSetpoint       = 0; // setpoint (in °)
+const int ad_PosTarget         = 1; // metric (in °)
+const int ad_PosCurrent        = 2; // metric (in °)
+const int ad_SpeSetpoint       = 3; // setpoint (in °/s or in s)
+const int ad_SpeMax            = 4; // metric (in °/s)
+const int ad_SpeTarget         = 5; // metric (in °/s)
+const int ad_SpeCurrent        = 6; // metric (in °/s)
+const int ad_MotionTime        = 7; // metric (in s)
 
 // Digital Data assignment
-const int dd_PosType           = 0; // position (setpoint type)
-const int dd_SpeType           = 1; // speed (setpoint type)
-const int dd_Start             = 2; // virtual switches
-const int dd_Stop              = 3; 
-const int dd_ServoIsReady      = 4; // servo state
-const int dd_ServoIsMoving     = 5;
-const int dd_NegLimitIsReached = 6; // travel limits
-const int dd_PosLimitIsReached = 7;
+const int dd_PosType           = 0; // virtual switch (position setpoint type)
+const int dd_SpeType           = 1; // virtual switch (speed setpoint type)
+const int dd_Start             = 2; // virtual switch
+const int dd_Stop              = 3; // virtual switch
+const int dd_ServoIsReady      = 4; // indicator
+const int dd_ServoIsMoving     = 5; // indicator
+const int dd_NegLimitIsReached = 6; // indicator (travel limit)
+const int dd_PosLimitIsReached = 7; // indicator (travel limit)
 
 // position control
 bool  posType     = LOW; // LOW: absolute    /  HIGH: relative

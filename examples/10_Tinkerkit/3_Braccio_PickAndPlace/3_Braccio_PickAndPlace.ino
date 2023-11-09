@@ -32,6 +32,11 @@ HITIComm examples:  Amazing / 9_Tinkerkit_Groups
 // Global Variables ------------------------------------------------------------
 // -----------------------------------------------------------------------------
 
+ // sketch ID
+ // (used to identify the sketch running on your Arduino)
+const char code_name[]    PROGMEM = "Braccio Pick and Place";
+const char code_version[] PROGMEM = "1.0.1";
+
 // Pins assignment 
 // Servo
 const int pin_Servo_Base     = 11;
@@ -44,19 +49,19 @@ const int pin_Servo_Gripper  = 3;
 const int pin_SoftStartControl = SOFT_START_CONTROL_PIN; // pin 12: internally used by Braccio
 
 // Analog Data assignment
-const int ad_Step              = 0; // main sequence step
-const int ad_SubStep           = 1; // sub sequence step
-const int ad_Position_Base     = 2; // current positions
-const int ad_Position_Shoulder = 3;
-const int ad_Position_Elbow    = 4;
-const int ad_Position_WristVer = 5;
-const int ad_Position_WristRot = 6;
-const int ad_Position_Gripper  = 7;
+const int ad_Step              = 0; // metric (main sequence step)
+const int ad_SubStep           = 1; // metric (sub sequence step)
+const int ad_Position_Base     = 2; // metric (in °)
+const int ad_Position_Shoulder = 3; // metric (in °)
+const int ad_Position_Elbow    = 4; // metric (in °)
+const int ad_Position_WristVer = 5; // metric (in °)
+const int ad_Position_WristRot = 6; // metric (in °)
+const int ad_Position_Gripper  = 7; // metric (in °)
 
 
 // Digital Data assignment
-const int dd_Start = 0; // virtual switches
-const int dd_Stop  = 1;
+const int dd_Start = 0; // virtual switch
+const int dd_Stop  = 1; // virtual switch
 
 // main motion sequence
 byte step          = 0;
@@ -148,6 +153,10 @@ void setup()
 	// (Braccio Shield v4 : all motors are safely placed in initial position using low voltage)
 	Braccio.begin();
 
+    // set sketch ID
+    HC_codeName(code_name);
+    HC_codeVersion(code_version);
+
 	// HC_Servo initialization
 	// param: custom id, pin, invert direction, position offset, absolute initial position, servo
 	servo_Base.    init(index_Base,     pin_Servo_Base,     false, 7.0, iPos_Base,     &base);
@@ -180,13 +189,13 @@ void loop()
     // start/stop motion sequence ------------------------------------------
 
     // step 0: ready to start sequence with the START button
-    if ((step == 0) && HC_digitalDataRead(dd_Start))
+    if (HC_digitalDataRead_click(dd_Start) && (step == 0))
     {
         step = 1;        // start sequence
     }
 
     // at any step: stop sequence with the STOP button
-    if (HC_digitalDataRead(dd_Stop))
+    if (HC_digitalDataRead_click(dd_Stop))
     {
         group.stopNow(); // stop group
         timer.reset();   // reset timer
@@ -199,10 +208,6 @@ void loop()
     else if (step == 1) move_init();       // Init positioning: Base 0
     else if (step == 2) moveStack(0, 2);   // Move stack: base 0 -> 2
     else if (step == 3) moveStack(2, 1);   // Move stack: base 2 -> 1
-
-    // deactivate the Virtual Buttons
-    HC_digitalDataWrite(dd_Start, false);
-    HC_digitalDataWrite(dd_Stop, false);
 
 
     // display data in HITIPanel ---------------------------------------------

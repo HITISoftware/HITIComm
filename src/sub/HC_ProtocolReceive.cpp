@@ -865,7 +865,6 @@ void HC_Protocol::analyzeInput()
 
 												// DD values
 												case HC_MessageType_DD:
-
 													nextToken(8);
 													HC_writeDD(hexStringToULong(mInput_data));
 													break;
@@ -1348,6 +1347,9 @@ void HC_Protocol::communicate()
 
     // measure SRAM on probe 0 (measurement used in X query)
     HC_sram.setProbe(0);
+
+	// record Digital Data (useful for rising/falling edge detection)
+	HCI_recordDD();
 
 	// receive new message
 	receive();

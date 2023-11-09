@@ -37,58 +37,58 @@ const int pin_Sounder = 13;
 enum motionSequence
 {
 	// walk (Forward, Backward, Left, Right)
-	walk_F      = 0,
-	walk_B      = 1,
-	walk_L      = 2,
-	walk_R      = 3,
+	walk_F      = 0, // virtual switch
+	walk_B      = 1, // virtual switch
+	walk_L      = 2, // virtual switch
+	walk_R      = 3, // virtual switch
 
 	// turn (Left, Right)
-	turn_L      = 4,
-	turn_R      = 5,
+	turn_L      = 4, // virtual switch
+	turn_R      = 5, // virtual switch
 
 	// lean (Forward, Backward, Left, Right)
-	lean_F      = 6,
-	lean_B      = 7,
-	lean_L      = 8,
-	lean_R      = 9,
+	lean_F      = 6, // virtual switch
+	lean_B      = 7, // virtual switch
+	lean_L      = 8, // virtual switch
+	lean_R      = 9, // virtual switch
 
 	// look (Left, Right)
-	look_L      = 10,
-	look_R      = 11,
+	look_L      = 10, // virtual switch
+	look_R      = 11, // virtual switch
 
 	// wave front (Left, Right)
-	waveFront_L = 12,
-	waveFront_R = 13,    
+	waveFront_L = 12, // virtual switch
+	waveFront_R = 13, // virtual switch
 
 	// wave rear (Left, Right)
-	waveRear_L  = 14,
-	waveRear_R  = 15, 
+	waveRear_L  = 14, // virtual switch
+	waveRear_R  = 15, // virtual switch
 	
 	// emotions
-	scared      = 16,
-	chirping    = 17,
+	scared      = 16, // virtual switch
+	chirping    = 17, // virtual switch
 
 	// initialization
-	initMotion  = 18,
+	initMotion  = 18, // virtual switch
 
-	MOTION_QTY  = 19
+	MOTION_QTY  = 19  // virtual switch
 };
 
 
 // Analog Data assignment ****************************************************
 
 // motion speed
-byte AD_motion_time = 0;
+byte AD_motion_time = 0; // Metric (in s)
 
 // servo position monitoring
-byte AD_Servo_HipFront_L     = 2;
-byte AD_Servo_HipFront_R     = 3;
-byte AD_Servo_HipRear_L      = 4;
-byte AD_Servo_HipRear_R      = 5;
-byte AD_Servo_KneeFront_L    = 6;
-byte AD_Servo_KneeFront_R    = 7;
-byte AD_Servo_KneeRear_L     = 8;
-byte AD_Servo_KneeRear_R     = 9;
+byte AD_Servo_HipFront_L     = 1; // Metric (in °)
+byte AD_Servo_HipFront_R     = 2; // Metric (in °)
+byte AD_Servo_HipRear_L      = 3; // Metric (in °)
+byte AD_Servo_HipRear_R      = 4; // Metric (in °)
+byte AD_Servo_KneeFront_L    = 5; // Metric (in °)
+byte AD_Servo_KneeFront_R    = 6; // Metric (in °)
+byte AD_Servo_KneeRear_L     = 7; // Metric (in °)
+byte AD_Servo_KneeRear_R     = 8; // Metric (in °)
 
 
 // HITI Servos ***************************************************************

@@ -21,8 +21,8 @@
 const int pin_TemperatureSensor = A1;
 
 // Analog Data assignment
-const int ad_Temperature_voltage = 0; // Temperature reading (converted in V)
-const int ad_Temperature_celsius = 1; // Temperature reading (converted in °C)
+const int ad_Temperature_voltage = 0; // metric (in V)
+const int ad_Temperature_celsius = 1; // metric (in °C)
 
 // Digital Data assignment:
 const int dd_ActivateFilter = 0; // Virtual Switch

@@ -1,5 +1,70 @@
 HITIComm revisions ********************************************
 
+1.6.1 (2023-11-03)
+	Keywords.txt:
+		* Old header removed
+	
+	Examples:
+		* 12_DFRobot:
+			- 1_DFRobot_Devastator updated
+
+1.6.0 (2023-10-04)
+	Examples:
+		* Bug fix: Start click can be pushed as a Switch after first click
+			- 2_ServoMotionSequence
+			- 3_Braccio_PickAndPlace
+			- 4_SynchronizedGroup
+			- 5_GroupRearranging
+			- 6_GroupAndSetpointsArrays
+		* 1_Basics:
+			- Only 3 examples now: 1_BareMinimum, 2_ReferenceSketch, 3_ActionsWithDuration
+			- 11_LightDetector moved to 4_Eeprom folder
+			- 2_ReferenceSketch updated		
+		* 7_Eeg:
+			- removed. 
+			- 1_ActionsWithDuration moved to 1_Basics folder
+		* 4_Eeprom:
+			- 5_LightDetector added and updated
+
+1.5.9 (2023-07-25)
+	Signal Processing library:
+		* Bug fix
+			- Median filter does nothing (Sort function reviewed + temp arrays added)
+	
+	Examples:
+		* 14_Waveshare:
+			- New example: 1_AlphaBot2
+		* 1_Basics:
+			- Reference sketch updated: use of HC_analogDataRead_setpoint()
+
+1.5.8 (2023-07-16)
+	HC_Data.cpp:
+		* added user function: HC_analogDataRead_setpoint()
+
+1.5.7 (2023-07-10)
+	Examples:
+		* 2_Timing/1_TimerAutoReset
+			Bug fix:
+				- Trying to read DO with digitalRead()
+		* 7_Eeg/1_ActionsWithDuration
+			Creation
+
+1.5.6 (2023-07-02)
+	Motion Control Library:
+		* Bug fix
+			- For continuous motions, bad management of the continuous increment (direction may be wrong)
+	
+	HC_Data.cpp: 
+		* Bug fix:
+			- HCI_InputsMode_hasChanged(), bad recording of values for variant MEGA
+		* Improvement:
+			- added user function: HC_digitalDataRead_click()
+			- added user function: HC_digitalDataRead_risingEdge()
+			- added user function: HC_digitalDataRead_fallingEdge()
+
+	Examples:
+			- use of HC_digitalDataRead_click()
+
 1.5.5 (2023-05-08)
 	Library:
 		* License: Apache 2.0

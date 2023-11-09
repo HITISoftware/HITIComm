@@ -42,42 +42,42 @@ const byte pin_tempHumid = A0;
 const byte pin_moisture  = A1;
 
 // Analog Data assignment
-const byte ad_watering_state              = 0; 
-const byte ad_encoder                     = 1; // encoder counts
-const byte ad_moisture_min                = 3; // moisture in %
-const byte ad_moisture                    = 4; 
-const byte ad_wateringTime                = 5; // watering time in s
-const byte ad_absorptionTime              = 6; // absorption time (following watering) in s
-const byte ad_flow_lmin                   = 7; // flow in L/min
-const byte ad_dispensedWaterVolume        = 8; // in L
-const byte ad_dispensedWaterVolume_perDay = 9; // in L
+const byte ad_watering_state              = 0; // metric (machine state)
+const byte ad_encoder                     = 1; // metric (in counts)
+const byte ad_moisture_min                = 3; // metric (in %)
+const byte ad_moisture                    = 4; // metric (in %)
+const byte ad_wateringTime                = 5; // setpoint (in s)
+const byte ad_absorptionTime              = 6; // setpoint (in s). Absorption time following watering
+const byte ad_flow_lmin                   = 7; // metric (in L/min)
+const byte ad_dispensedWaterVolume        = 8; // metric (in L)
+const byte ad_dispensedWaterVolume_perDay = 9; // metric (in L)
 
-const byte ad_temperature_min      = 10; // temperature in °C
-const byte ad_temperature_max      = 11;
-const byte ad_temperature          = 12;
-const byte ad_humidity_min         = 13; // humidity in %
-const byte ad_humidity_max         = 14; 
-const byte ad_humidity             = 15; 
-const byte ad_sunlight_UVIndex_max = 16; // sunlight UV index
-const byte ad_sunlight_UVIndex     = 17; 
-const byte ad_sunlight_Visible     = 18; // sunlight Visible intensity
-const byte ad_sunlight_IR          = 19; // sunlight IR intensity
+const byte ad_temperature_min      = 10; // setpoint (in °C)
+const byte ad_temperature_max      = 11; // setpoint (in °C)
+const byte ad_temperature          = 12; // metric (in °C)
+const byte ad_humidity_min         = 13; // setpoint (in %)
+const byte ad_humidity_max         = 14; // setpoint (in %)
+const byte ad_humidity             = 15; // metric (in %)
+const byte ad_sunlight_UVIndex_max = 16; // setpoint (in UV index)
+const byte ad_sunlight_UVIndex     = 17; // metric (in UV index)
+const byte ad_sunlight_Visible     = 18; // metric (visible intensity)
+const byte ad_sunlight_IR          = 19; // metric (IR intensity)
 
 // Digital Data assignment
-const byte dd_warning_temperature_low  = 0;
-const byte dd_warning_temperature_high = 1;
-const byte dd_warning_humidity_low     = 2;
-const byte dd_warning_humidity_high    = 3;
-const byte dd_warning_UVIndex_high     = 4;
-const byte dd_warning_moisture_low     = 5;
-const byte dd_warning_noWater          = 6;
-const byte dd_warning                  = 7;
+const byte dd_warning_temperature_low  = 0;  // indicator
+const byte dd_warning_temperature_high = 1;  // indicator
+const byte dd_warning_humidity_low     = 2;  // indicator
+const byte dd_warning_humidity_high    = 3;  // indicator
+const byte dd_warning_UVIndex_high     = 4;  // indicator
+const byte dd_warning_moisture_low     = 5;  // indicator
+const byte dd_warning_noWater          = 6;  // indicator
+const byte dd_warning                  = 7;  // indicator
 const byte dd_resetWarning_noWater     = 9;  // virtual button
 const byte dd_saveSettings             = 10; // virtual button
 const byte dd_loadSettings             = 11; // virtual button
-const byte dd_enableWatering           = 12;
+const byte dd_enableWatering           = 12; // virtual switch
 const byte dd_water                    = 13; // virtual button
-const byte dd_isWatering               = 14;
+const byte dd_isWatering               = 14; // indicator
 
 
 // temperature & humidity sensor DHT 11
@@ -98,7 +98,7 @@ float moisture = 0;
 
 // Encoder
 Encoder encoder(pin_encoder_A, pin_encoder_B);
-byte encoder_variation = 0;
+long encoder_variation = 0;
 
 
 // Sunlight sensor (SI1145)
@@ -430,7 +430,7 @@ void sendDataToHITIPanel()
     HC_digitalDataWrite(dd_isWatering,                 watering_ongoing_flag);    
 
     // encoder
-    //HC_analogDataWrite(ad_encoder, encoder_variation);
+    HC_analogDataWrite(ad_encoder, encoder_variation);
 
     // warnings
     bool warning = isWarningDetected_temperature_low() || isWarningDetected_temperature_high() ||
@@ -504,39 +504,27 @@ void manageVirtualButtons()
 // Settings
 void manageVirtualButton_saveSettings()
 {
-    if(HC_digitalDataRead(dd_saveSettings))
-    {
-        HC_digitalDataWrite(dd_saveSettings, false); // reset virtual switch
+    if(HC_digitalDataRead_click(dd_saveSettings))
         saveSettings();
-    }
 }
 void manageVirtualButton_loadSettings()
 {
-    if(HC_digitalDataRead(dd_loadSettings))
-    {
-        HC_digitalDataWrite(dd_loadSettings, false); // reset virtual switch
+    if(HC_digitalDataRead_click(dd_loadSettings))
         loadSettings();
-    }
 }
 
 // Watering
 void manageVirtualButton_watering()
 {
-    if(HC_digitalDataRead(dd_water))
-    {
-        HC_digitalDataWrite(dd_water, false); // reset virtual switch
+    if(HC_digitalDataRead_click(dd_water))
         watering_request_flag = true; // set request flag
-    }
 }
 
 // Reset warning: No water
 void manageVirtualButton_resetWarning_noWater()
 {
-    if(HC_digitalDataRead(dd_resetWarning_noWater))
-    {
-        HC_digitalDataWrite(dd_resetWarning_noWater, false); // reset virtual switch
+    if(HC_digitalDataRead_click(dd_resetWarning_noWater))
         warning_noWater_flag = false; // reset warning flag
-    }
 }
 
 

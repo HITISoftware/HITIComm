@@ -92,6 +92,8 @@ class HC_SignalFilter
 		uint8_t mSize;	// buffer size
 		float* mBuffer;		// array containing the data to process
 		bool* mBufferMask;	// mask telling which values of mBuffer should be processed
+		float* mTempBuffer;		// working array
+		bool* mTempBufferMask;	// working mask
 };
 
 #endif

@@ -29,18 +29,18 @@ const int pin_Servo_2 = 9;
 const int pin_Servo_3 = 10;
 
 // Analog Data assignment
-const int ad_Step         = 0; // sequence step
-const int ad_Position_S1  = 1; // current positions (Servos 1-3)
-const int ad_Position_S2  = 2;
-const int ad_Position_S3  = 3;
-const int ad_maxSpeed_S1  = 4; // max speed (Servo 1)
-const int ad_motionTime_G = 5; // motion time (Group)
+const int ad_Step         = 0; // metric (sequence step)
+const int ad_Position_S1  = 1; // metric (position in °)
+const int ad_Position_S2  = 2; // metric (position in °)
+const int ad_Position_S3  = 3; // metric (position in °)
+const int ad_maxSpeed_S1  = 4; // setpoint (max speed of servo 1 in °/s)
+const int ad_motionTime_G = 5; // metric (motion time of the Group in s)
 
 // Digital Data assignment
-const int dd_Start        = 0; // virtual buttons
-const int dd_Stop         = 1;
-const int dd_isReady_G    = 2; // group state
-const int dd_isMoving_G   = 3;
+const int dd_Start        = 0; // virtual button
+const int dd_Stop         = 1; // virtual button
+const int dd_isReady_G    = 2; // indicator
+const int dd_isMoving_G   = 3; // indicator
 
 // motion sequence in 5 steps: 0 (Ready), 1-2 (Motions)
 int step = 0;
@@ -100,11 +100,11 @@ void loop()
     // start/stop motion sequence --------------------------------------------
     
     // step 0: ready to start sequence with the START button
-    if((step == 0) && HC_digitalDataRead(dd_Start))
+    if(HC_digitalDataRead_click(dd_Start) && (step == 0))
         step = 1; // start sequence
     
     // at any step: stop sequence with the STOP button
-    if(HC_digitalDataRead(dd_Stop))
+    if(HC_digitalDataRead_click(dd_Stop))
     {
         group.stopNow(); // stop group
         step = 0;        // reset sequence
@@ -139,10 +139,6 @@ void loop()
         if(group.isEnding())
             onMotionDone();
     }
-    
-    // deactivate the Virtual Buttons
-    HC_digitalDataWrite(dd_Start, false);
-    HC_digitalDataWrite(dd_Stop,  false);
     
     
     // display data in HITIPanel ---------------------------------------------

@@ -48,31 +48,31 @@ const int pin_Servo_Gripper  = 3;
 // Braccio : Soft Start Control pin
 const int pin_SoftStartControl = SOFT_START_CONTROL_PIN; // pin 12: internally used by Braccio
 
-// HITI Analog Data assignment
+// Analog Data assignment
 // motion control
-const int AD_ContinuousSpeedSetpoint = 0;
+const int AD_ContinuousSpeedSetpoint = 0; // setpoint (in °/s)
 // motion monitoring
-const int AD_PositionRead_Base       = 4;
-const int AD_PositionRead_Shoulder   = 5;
-const int AD_PositionRead_Elbow      = 6;
-const int AD_PositionRead_WristVer   = 7;
-const int AD_PositionRead_WristRot   = 8;
-const int AD_PositionRead_Gripper    = 9;
+const int AD_PositionRead_Base       = 4; // metric (in °)
+const int AD_PositionRead_Shoulder   = 5; // metric (in °)
+const int AD_PositionRead_Elbow      = 6; // metric (in °)
+const int AD_PositionRead_WristVer   = 7; // metric (in °)
+const int AD_PositionRead_WristRot   = 8; // metric (in °)
+const int AD_PositionRead_Gripper    = 9; // metric (in °)
 
-// HITI Digital Data assignment
+// Digital Data assignment
 // motion triggers
-const int DD_GoForward_Base             = 0;
-const int DD_GoBackward_Base            = 1;
-const int DD_GoForward_Shoulder         = 2;
-const int DD_GoBackward_Shoulder        = 3;
-const int DD_GoForward_Elbow            = 4;
-const int DD_GoBackward_Elbow           = 5;
-const int DD_GoForward_WristVer         = 6;
-const int DD_GoBackward_WristVer        = 7;
-const int DD_GoForward_WristRot         = 8;
-const int DD_GoBackward_WristRot        = 9;
-const int DD_GoForward_Gripper          = 10;
-const int DD_GoBackward_Gripper         = 11;
+const int DD_GoForward_Base             = 0; // virtual switch
+const int DD_GoBackward_Base            = 1; // virtual switch
+const int DD_GoForward_Shoulder         = 2; // virtual switch
+const int DD_GoBackward_Shoulder        = 3; // virtual switch
+const int DD_GoForward_Elbow            = 4; // virtual switch
+const int DD_GoBackward_Elbow           = 5; // virtual switch
+const int DD_GoForward_WristVer         = 6; // virtual switch
+const int DD_GoBackward_WristVer        = 7; // virtual switch
+const int DD_GoForward_WristRot         = 8; // virtual switch
+const int DD_GoBackward_WristRot        = 9; // virtual switch
+const int DD_GoForward_Gripper          = 10; // virtual switch
+const int DD_GoBackward_Gripper         = 11; // virtual switch
 
 // HITIComm Servo
 HC_Servo servo_Base;

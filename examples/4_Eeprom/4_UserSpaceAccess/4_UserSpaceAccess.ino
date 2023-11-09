@@ -28,23 +28,13 @@ void loop()
 	// communicate with HITIPanel
 	HC_communicate();
 
-	// if the "WRITE" Button is activated from HITIPanel
-	if (HC_digitalDataRead(DD_Write) == HIGH)
-	{
-		// immediately deactivate Button
-		HC_digitalDataWrite(DD_Write, LOW);
-
+	// if the "WRITE" Button is clicked from HITIPanel
+	if (HC_digitalDataRead_click(DD_Write) == HIGH)
 		// Analog Data 0 value is written to Float 17 (EEPROM)
 		HC_eeprom.writeFloat(17, HC_analogDataRead(0));
-	}
 
-	// if the "READ" Button is activated from HITIPanel
-	else if (HC_digitalDataRead(DD_Read) == HIGH)
-	{
-		// immediately deactivate Button
-		HC_digitalDataWrite(DD_Read, LOW);
-
+	// if the "READ" Button is clicked from HITIPanel
+	else if (HC_digitalDataRead_click(DD_Read) == HIGH)
 		// Float 17 (EEPROM) value is put in Analog Data 1
 		HC_analogDataWrite(1, HC_eeprom.readFloat(17));
-	}
 }
