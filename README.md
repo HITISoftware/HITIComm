@@ -1,21 +1,30 @@
 # HITIComm
 Arduino library for efficient control and monitoring of Arduino projects from computer.
-Optimized for working with HITISoftware products (Tahiti Robotics SARL).
+<br>
+
+Optimized for working with HITISoftware products (https://hitisoftware.com, Tahiti Robotics SARL):
+* HITIPanel: GUI for Arduino projects, serial plotting and logging, GUI for Eeprom, control with keyboard
+* HITIBrain: Arduino control from Emotiv EEG headsets
 <br>
 
 # Pre-compiled library
 HITIComm is an open-source library but it requires a large amount of Arduino program memory (15kB). 
 To speed up compilation, it is supplied pre-compiled to users. 
 <br>
-The source files can be found at https://github.com/HITISoftware/HITIComm  
+The source files can be found at https://github.com/HITISoftware/HITIComm
 <br>
 
 # Documentation
-You can find getting started guides and reference documentation at https://hitisoftware.com  
+You can the reference documentation at https://hitisoftware.freshdesk.com/support/home
+<br>
+
+# Compatibility
+The library is compatible with the AVR, MegaAVR and MKR boards. Check full list here:
+https://hitisoftware.freshdesk.com/support/solutions/articles/48001228549-arduino-compatibility
 <br>
 
 # Contributing
-Here is the info on how you can contribute in various ways to the project: to do  
+Here is the info on how you can contribute in various ways to the project: TO DO  
 <br>
 
 # Licenses
